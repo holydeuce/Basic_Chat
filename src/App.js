@@ -16,6 +16,17 @@ function App() {
   useEffect(() => {
     socket.emit('connected');
 
+    socket.on('success', data => setConnected(true));
+
+    socket.on('message_from_the_server', data => {
+      console.log(data);
+      let[...curLog] = chatlog;
+      console.log(curLog)
+      curLog.push(data);
+
+      setChatlog(curLog);
+    })
+
     return () => socket.disconnect(true);
   }, [])
 
